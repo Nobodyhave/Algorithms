@@ -7,7 +7,7 @@
     + [Merge sort bottom-up](#merge-sort-bottom-up)
     + [Heap sort](#heap-sort)
     + [Quick sort](#quick-sort)
-    + [Quick sort(3-way](#quick-sort-3-way)
+    + [Quick sort 3-way](#quick-sort-3-way)
     + [LSD sort](#lsd-sort)
     + [MSD sort](#msd-sort)
     + [Quick sort 3-way strings](#quick-sort-3-way-strings)
