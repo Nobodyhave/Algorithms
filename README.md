@@ -1,4 +1,4 @@
-- [**Algorithms**](#--algorithms--)
+- [**Algorithms**](#algorithms)
   * [Sorting](#sorting)
     + [Selection sort](#selection-sort)
     + [Insertion sort](#insertion-sort)
