@@ -185,7 +185,7 @@ Las Vegas - hash collisions are checked.
 **Description:** To handle regular expressions, we consider a more powerful abstract machine. Because of the or operation, the automaton cannot determine whether or not the pattern could occur at a given point by examining just one character; indeed, because of closure, it cannot even determine how many characters might need to be examined before a mismatch is discovered. To overcome these problems, we will endow the automaton with the power of nondeterminism: when faced with more than one way to try to match the pattern, the machine can “guess’’ the right one! This power might seem to you to be impossible to realize, but we will see that it is easy to write a program to build a nondeterministic finite-state automaton (NFA) and to efficiently simulate its operation.
 The idea of an automaton that can guess the state transitions it needs to get to the accept state is like writing a program that can guess the right answer to a problem: it seems ridiculous. On reflection, you will see that the task is conceptually not at all difficult: we make sure that we check all possible sequences of state transitions, so if there is one that gets to the accept state, we will find it.
 We keep the RE itself in an array re[] of char values that defines the match transitions (if re[i] is in the alphabet, then there is a match transition from i to i+1). The natural representation for the e-transitions is a digraph—they are directed edges (red edges in our diagrams) connecting vertices between 0 and M (one for each state). Accordingly, we represent all the e-transitions as a digraph G.
-To simulate an NFA, we keep track of the set of states that could possibly be encountered while the automaton is examining the current input character. The key computation is the familiar multiple-source reachability . To initialize this set, we find the set of states reachable via e-transitions from state 0. For each such state, we check whether a match transition for the first input character is possible. This check gives us the set of possible states for the NFA just after matching the first input character. To this set, we add all states that could be reached via e-transitions from one of the states in the set. Given the set of possible states for the NFA just after matching the first character in the input, the solution to the multiple-source reachability problem in the e-transition digraph gives the set of states that could lead to match transitions for the second character in the input.
+To simulate an NFA, we keep track of the set of states that could possibly be encountered while the automaton is examining the current input character. The key computation is the familiar multiple-source reachability . To initialize this set, we find the set of states reachable via e-transitions from state 0. For each such state, we check whether a match transition for the first input character is possible. This check gives us the set of possible states for the NFA just after matching the first input character. To this set, we add all states that could be reached via e-transitions from one of the states in the set. Given the set of possible states for the NFA just after matching the first character in the input, the solution to the multiple-source reachability problem in the e-transition digraph gives the set of states that could lead to match transitions for the second character in the input.
 Iterating this process until all text characters are exhausted leads to one of two outcomes: possible states set contains accept state or not.The first of these outcomes indicates that there is some sequence of transitions that takes the NFA to the accept state, so we report success. The second of these outcomes indicates that the NFA always stalls on that input, so we report failure.
 
 [Source code](https://github.com/Nobodyhave/Algorithms/blob/master/src/algorithms/string_search/NFA.java)
@@ -230,8 +230,11 @@ Adding instance variable edgeTo[] of int values that serves the purpose of the b
 ### Topological sort ###
 **Description:** Solving the directed cycle detection problem thus answers the following question: Is a given digraph a DAG ? Developing a depth-first-search-based solution to this problem is not difficult, based on the fact that the recursive call stack maintained by the system represents the “current” directed path under consideration (like the string back to the entrance in Tremaux maze exploration). If we ever find a directed edge v->w to a vertex w that is on that stack, we have found a cycle, since the stack is evidence of a directed path from w to v, and the edge v->w completes the cycle. Moreover, the absence of any such back edges implies that the graph is acyclic.
 Topological sort is based on the idea that depth-first search visits each vertex exactly once. If we save the vertex given as argument to the recursive dfs() in a data structure, then iterate through that data structure, we see all the graph vertices, in order determined by the nature of the data structure and by whether we do the save before or after the recursive calls. Three vertex orderings are of interest in typical applications:
+
 ■ Preorder : Put the vertex on a queue before the recursive calls.
+
 ■ Postorder : Put the vertex on a queue after the recursive calls.
+
 ■ Reverse postorder : Put the vertex on a stack after the recursive calls.
 Reverse postorder in DAG is a topological sort.
 
@@ -244,8 +247,11 @@ Reverse postorder in DAG is a topological sort.
 **Description:** Two vertices v and w are strongly connected if they are mutually reachable: that is, if there is a directed path from v to w and a directed path from w to v. A digraph is strongly connected if all its vertices are strongly connected to one another.
 The equivalence classes are maximal subsets of vertices that are strongly connected to one another, with each vertex in exactly one subset. We refer to these subsets as strongly connected components, or strong components for short.
 Remarkably, the implementation KosarajuSCC does the job with just a few lines of code added to CC, as follows:
+
 ■ Given a digraph G, use DepthFirstOrder to compute the reverse postorder of its reverse, G R.
+
 ■ Run standard DFS on G, but consider the unmarked vertices in the order just computed instead of the standard numerical order.
+
 ■ All vertices reached on a call to the recursive dfs() from the constructor are in a strong component (!), so identify them as in CC.
 
 [Source code](https://github.com/Nobodyhave/Algorithms/blob/master/src/algorithms/graph/connected_components/KosarajuSharirSCC.java)
@@ -257,9 +263,9 @@ Remarkably, the implementation KosarajuSCC does the job with just a few lines of
 **Description:** A cut of a graph is a partition of its vertices into two nonempty disjoint sets. A crossing edge of a cut is an edge that connects a vertex in one set with a vertex in the other.
 Given any cut in an edge-weighted graph, the crossing edge of minimum weight is in the MST of the graph.
 Under our assumption that edge weights are distinct, every connected graph has a unique MST and the cut property says that the shortest crossing edge for every cut must be in the MST.
-Attach a new edge to a single growing tree at each step. Start with any vertex as a single-vertex tree; then add V-1 edges to it, always taking next (colouring black) the minimum weight edge that connects a vertex on the tree to a vertex not yet on the tree (a crossing edge for the cut defined by tree vertices).
+Attach a new edge to a single growing tree at each step. Start with any vertex as a single-vertex tree; then add V-1 edges to it, always taking next (colouring black) the minimum weight edge that connects a vertex on the tree to a vertex not yet on the tree (a crossing edge for the cut defined by tree vertices).
 Each time that we add an edge to the tree, we also add a vertex to the tree. To maintain the set of crossing edges, we need to add to the priority queue all edges from that vertex to any non-tree vertex (using marked[] to identify such edges). But we must do more: any edge connecting the vertex just added to a tree vertex that is already on the priority queue now becomes ineligible (it is no longer a crossing edge because it connects two tree vertices). An eager implementation of Prim’s algorithm would remove such edges from the priority queue; we first consider a simpler lazy implementation of the algorithm where we leave such edges on the priority queue, deferring the eligibility test to when we remove them.
-After having added V vertices (and V-1 edges), the MST is complete. The remaining edges on the priority queue are ineligible, so we need not examine them again.
+After having added V vertices (and V-1 edges), the MST is complete. The remaining edges on the priority queue are ineligible, so we need not examine them again.
 
 [Source code](https://github.com/Nobodyhave/Algorithms/blob/master/src/algorithms/graph/mst/LazyPrimMST.java)
 
@@ -275,7 +281,7 @@ After having added V vertices (and V-1 edges), the MST is complete. The remaini
 
 **Space complexity:** O(V) 
 ### Kruskal minimum spanning tree ###
-**Description:** The second MST algorithm that we consider in detail is to process the edges in order of their weight values (smallest to largest), taking for the MST (colouring black) each edge that does not form a cycle with edges previously added, stopping after adding V-1 edges have been taken. The black edges form a forest of trees that evolves gradually into a single tree, the MST.
+**Description:** The second MST algorithm that we consider in detail is to process the edges in order of their weight values (smallest to largest), taking for the MST (colouring black) each edge that does not form a cycle with edges previously added, stopping after adding V-1 edges have been taken. The black edges form a forest of trees that evolves gradually into a single tree, the MST.
 Kruskal’s algorithm is also not difficult to implement, given the basic algorithmic tools: we use a priority queue to consider the edges in order by weight, a union-find data structure to identify those that cause cycles, and a queue to collect the MST edges.
 
 [Source code](https://github.com/Nobodyhave/Algorithms/blob/master/src/algorithms/graph/mst/KruskalMST.java)
