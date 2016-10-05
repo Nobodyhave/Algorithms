@@ -34,7 +34,7 @@
     + [Run length encoding](#run-length-encoding)
     + [Huffman](#huffman)
     + [LZW](#lzw)
-- [**Data structures**](#--data-structures--)
+- [**Data structures**](#data-structures)
   * [Union find](#union-find)
     + [Quick find](#quick-find)
     + [Quick union](#quick-union)
