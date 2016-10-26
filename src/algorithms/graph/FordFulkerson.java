@@ -10,7 +10,8 @@
 
 package algorithms.graph;
 
-import data_structures.graph.FlowEdge;
+
+import edu.princeton.cs.algs4.FlowEdge;
 import edu.princeton.cs.algs4.FlowNetwork;
 import edu.princeton.cs.algs4.Queue;
 import edu.princeton.cs.algs4.StdOut;
