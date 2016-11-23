@@ -1,9 +1,10 @@
 package shortcuts;
 
 import java.math.BigInteger;
-import java.util.Arrays;
+import java.util.*;
 
 public final class MathUtils {
+    private static final Map<Integer, List<Integer>> DIVISORS = new HashMap<>();
 
     private MathUtils() {
         // Prevent instantiation
@@ -62,20 +63,67 @@ public final class MathUtils {
         return true;
     }
 
-    public boolean[] sieveOfEratosthenes(int n) {
+    public static List<Integer> getDivisors(int N, List<Integer> primes) {
+        if (!DIVISORS.containsKey(N)) {
+            final List<Integer> localPrimes = new ArrayList<>();
+            for (Integer prime : primes) {
+                if (prime > N) {
+                    break;
+                } else if (N % prime == 0) {
+                    localPrimes.add(prime);
+                }
+            }
+
+            final List<Integer> divisors = new ArrayList<>();
+            divisors.add(1);
+            divisors.add(N);
+            calculateDivisors(divisors, localPrimes, 0, N, (int) Math.sqrt(N) + 1, 1);
+
+            Collections.sort(divisors);
+            DIVISORS.put(N, divisors.subList(divisors.size() / 2, divisors.size()));
+        }
+
+        return DIVISORS.get(N);
+    }
+
+    private static void calculateDivisors(List<Integer> divisors, List<Integer> primes, int start, int target, int sqrt, int cur) {
+        if (target % cur == 0 && cur != 1) {
+            divisors.add(cur);
+            divisors.add(target / cur);
+        } else if (cur > target || start > primes.size()) {
+            return;
+        } else if (target == 1) {
+            return;
+        }
+
+        int current = cur;
+        for (int i = start; i < primes.size(); i++) {
+            if (current == 1 || current == cur) {
+                calculateDivisors(divisors, primes, i + 1, target, sqrt, current);
+            }
+            while ((current *= primes.get(i)) <= sqrt) {
+                calculateDivisors(divisors, primes, i + 1, target, sqrt, current);
+            }
+        }
+    }
+
+    public static List<Integer> sieveOfEratosthenes(int n) {
         final boolean[] prime = new boolean[n + 1];
+        final List<Integer> primes = new ArrayList<>();
         Arrays.fill(prime, true);
         prime[0] = false;
         prime[1] = false;
         final int m = (int) Math.sqrt(n) + 1;
 
-        for (int i = 2; i <= m; i++)
+        for (int i = 2; i <= m; i++) {
             if (prime[i]) {
+                primes.add(i);
                 for (int k = i * i; k <= n; k += i) {
                     prime[k] = false;
                 }
             }
-        return prime;
+        }
+        return primes;
     }
 
     public static int sumOfArithmeticProgression(int[] a) {
