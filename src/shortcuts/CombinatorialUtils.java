@@ -17,7 +17,7 @@ public final class CombinatorialUtils {
 
         for (int i = 1; i <= n; i++) {
             for (int j = 1; j <= i; j++) {
-                nums[i][j] = binomialCoefficient(i, j).multiply(binomialCoefficient(i, j - 1)).divide(BigInteger.valueOf(i));
+                nums[i][j] = combinations(i, j).multiply(combinations(i, j - 1)).divide(BigInteger.valueOf(i));
             }
         }
 
@@ -28,14 +28,18 @@ public final class CombinatorialUtils {
         final BigInteger[] nums = new BigInteger[n + 1];
         nums[0] = BigInteger.ZERO;
         for (int i = 1; i <= n; i++) {
-            nums[i] = binomialCoefficient(2 * i, i).divide(BigInteger.valueOf(i + 1));
+            nums[i] = combinations(2 * i, i).divide(BigInteger.valueOf(i + 1));
         }
 
         return nums;
     }
 
-    public static BigInteger binomialCoefficient(int n, int k) {
+    public static BigInteger combinations(int n, int k) {
         return FACTORIALS[n].divide(FACTORIALS[n - k]).divide(FACTORIALS[k]);
+    }
+
+    public static BigInteger arrangements(int n, int k) {
+        return FACTORIALS[n].divide(FACTORIALS[n - k]);
     }
 
     public static BigInteger[] factorials(int n) {
