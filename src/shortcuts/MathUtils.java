@@ -4,7 +4,7 @@ import java.math.BigInteger;
 import java.util.*;
 
 public final class MathUtils {
-    private static final Map<Integer, List<Integer>> DIVISORS = new HashMap<>();
+    private static final Map<Integer, Set<Integer>> DIVISORS = new HashMap<>();
 
     private MathUtils() {
         // Prevent instantiation
@@ -63,7 +63,33 @@ public final class MathUtils {
         return true;
     }
 
-    public static List<Integer> getDivisors(int N, List<Integer> primes) {
+    private static List<Integer> trialDivisors(int N) {
+        final int M = (int) Math.sqrt(N);
+        final List<Integer> small = new ArrayList<>();
+        final Stack<Integer> big = new Stack<>();
+
+        for (int i = 1; i < M; i++) {
+            if (N % i == 0) {
+                small.add(i);
+                big.push(N / i);
+            }
+        }
+
+        if (N % M == 0) {
+            small.add(M);
+            if (N / M != M) {
+                big.push(N / M);
+            }
+        }
+
+        while (!big.isEmpty()) {
+            small.add(big.pop());
+        }
+
+        return small;
+    }
+
+    public static Set<Integer> getDivisors(int N, List<Integer> primes) {
         if (!DIVISORS.containsKey(N)) {
             final List<Integer> localPrimes = new ArrayList<>();
             for (Integer prime : primes) {
@@ -74,19 +100,18 @@ public final class MathUtils {
                 }
             }
 
-            final List<Integer> divisors = new ArrayList<>();
+            final Set<Integer> divisors = new TreeSet<>();
             divisors.add(1);
             divisors.add(N);
             calculateDivisors(divisors, localPrimes, 0, N, (int) Math.sqrt(N) + 1, 1);
 
-            Collections.sort(divisors);
-            DIVISORS.put(N, divisors.subList(divisors.size() / 2, divisors.size()));
+            DIVISORS.put(N, divisors);
         }
 
         return DIVISORS.get(N);
     }
 
-    private static void calculateDivisors(List<Integer> divisors, List<Integer> primes, int start, int target, int sqrt, int cur) {
+    private static void calculateDivisors(Set<Integer> divisors, List<Integer> primes, int start, int target, int sqrt, int cur) {
         if (target % cur == 0 && cur != 1) {
             divisors.add(cur);
             divisors.add(target / cur);
@@ -108,26 +133,75 @@ public final class MathUtils {
     }
 
     public static List<Integer> sieveOfEratosthenes(int n) {
-        final boolean[] prime = new boolean[n + 1];
+        final BitSet prime = new BitSet(Math.max(3, n + 1));
         final List<Integer> primes = new ArrayList<>();
-        Arrays.fill(prime, true);
-        prime[0] = false;
-        prime[1] = false;
+        prime.set(0, false);
+        prime.set(1, false);
+        prime.set(2, n + 1, true);
         final int m = (int) Math.sqrt(n) + 1;
 
         for (int i = 2; i <= m; i++) {
-            if (prime[i]) {
+            if (prime.get(i)) {
                 primes.add(i);
                 for (int k = i * i; k <= n; k += i) {
-                    prime[k] = false;
+                    prime.set(k, false);
                 }
             }
         }
+
+        for (int i = m + 1; i <= n; i++) {
+            if (prime.get(i)) {
+                primes.add(i);
+            }
+        }
+
         return primes;
+    }
+
+    public static List<Integer> segmentSieve(int N, int M) {
+        if (N >= M) {
+            return new ArrayList<>();
+        }
+
+        final List<Integer> lessPrimes = sieveOfEratosthenes((int) Math.sqrt(M) + 1);
+
+        final boolean[] primes = new boolean[M - N + 1];
+        Arrays.fill(primes, true);
+
+        if (N == 0) {
+            primes[0] = false;
+            if (M > 0) {
+                primes[1] = false;
+            }
+        } else if (N == 1) {
+            primes[0] = false;
+        }
+
+        for (Integer prime : lessPrimes) {
+            final int start = (int) Math.ceil((double) N / prime) * prime;
+            for (int i = start - N; i <= M - N; i += prime) {
+                if (i != prime - N) {
+                    primes[i] = false;
+                }
+            }
+        }
+
+        final List<Integer> primesList = new ArrayList<>();
+        for (int i = 0; i <= M - N; i++) {
+            if (primes[i]) {
+                primesList.add(i + N);
+            }
+        }
+
+        return primesList;
     }
 
     public static int sumOfArithmeticProgression(int[] a) {
         return a.length * (a[0] + a[a.length - 1]) / 2;
+    }
+
+    public static BigInteger sumOfArithmeticProgression(BigInteger start, BigInteger end, long length) {
+        return BigInteger.valueOf(length).multiply(start.add(end)).divide(BigInteger.valueOf(2));
     }
 
     public static BigInteger fastFibonacciDoubling(long n) {
@@ -145,5 +219,9 @@ public final class MathUtils {
             }
         }
         return a;
+    }
+
+    public static long findTriangularNumber(int N) {
+        return (long) N * (N - 1) / 2;
     }
 }

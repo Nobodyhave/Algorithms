@@ -1,6 +1,7 @@
 package shortcuts;
 
 import java.math.BigInteger;
+import java.util.stream.IntStream;
 
 public final class CombinatorialUtils {
 
@@ -40,6 +41,17 @@ public final class CombinatorialUtils {
 
     public static BigInteger arrangements(int n, int k) {
         return FACTORIALS[n].divide(FACTORIALS[n - k]);
+    }
+
+    public static BigInteger multiSetPermutation(int... M) {
+        final int n = IntStream.of(M).sum();
+
+        BigInteger result = FACTORIALS[n];
+        for (Integer m : M) {
+            result = result.divide(FACTORIALS[m]);
+        }
+
+        return result;
     }
 
     public static BigInteger[] factorials(int n) {
