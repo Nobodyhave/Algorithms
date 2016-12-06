@@ -196,6 +196,33 @@ public final class MathUtils {
         return primesList;
     }
 
+    private static BigInteger binomial(int N, int K, List<Integer> primes) {
+        int i = 0;
+        int curPrime;
+        BigInteger result = BigInteger.ONE;
+        while (primes.get(i) <= N) {
+            curPrime = primes.get(i);
+            final BigInteger powersOfPrime = (powerOfPrimeInFactorial(N, curPrime)
+                    .subtract(powerOfPrimeInFactorial(K, curPrime)))
+                    .subtract(powerOfPrimeInFactorial(N - K, curPrime));
+            if (powersOfPrime.compareTo(BigInteger.ZERO) > 0) {
+                result = result.multiply(BigInteger.valueOf(curPrime).pow(powersOfPrime.intValue()));
+            }
+            i++;
+        }
+
+        return result;
+    }
+
+    private static BigInteger powerOfPrimeInFactorial(int N, int prime) {
+        int result = 0;
+        for (long p = prime; p <= N; p *= prime) {
+            result = result + (int) (N / p);
+        }
+
+        return BigInteger.valueOf(result);
+    }
+
     public static int sumOfArithmeticProgression(int[] a) {
         return a.length * (a[0] + a[a.length - 1]) / 2;
     }
