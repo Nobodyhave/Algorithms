@@ -4,12 +4,20 @@ import java.math.BigInteger;
 import java.util.*;
 
 public final class MathUtils {
+    private static final BigInteger TWO = BigInteger.valueOf(2);
     private static final Map<Integer, Set<Integer>> DIVISORS = new HashMap<>();
 
     private MathUtils() {
         // Prevent instantiation
     }
 
+    /**
+     * Calculates greatest common divisor of 2 integers
+     *
+     * @param a first integer
+     * @param b second integer
+     * @return greatest common divisor of a and b
+     */
     public static int gcd(int a, int b) {
         if (b == 0) {
             return a;
@@ -17,10 +25,23 @@ public final class MathUtils {
         return gcd(b, a % b);
     }
 
+    /**
+     * Calculates lowest common multiple of 2 integers
+     *
+     * @param a first integer
+     * @param b second integer
+     * @return lowest common multiple of a and b
+     */
     public static int lcm(int a, int b) {
         return b * a / gcd(a, b);
     }
 
+    /**
+     * Calculates sum of of absolute differences of all pairs in array
+     *
+     * @param a array of integers
+     * @return sum of of absolute differences of all pairs in array
+     */
     public static long sumOfAbsDifferencesOfAllPairs(int[] a) {
         Arrays.sort(a);
 
@@ -32,6 +53,12 @@ public final class MathUtils {
         return sum;
     }
 
+    /**
+     * Calculates sum of of squared differences of all pairs in array
+     *
+     * @param a array of integers
+     * @return sum of of squared differences of all pairs in array
+     */
     public static long sumOfSquaredDifferencesOfAllPairs(int[] a, int left, int right) {
         long sum = 0;
         for (int i = left; i < right; i++) {
@@ -43,6 +70,12 @@ public final class MathUtils {
         return sum;
     }
 
+    /**
+     * Checks if integer is prime
+     *
+     * @param n integer to be checked
+     * @return if n is prime
+     */
     public static boolean isPrime(int n) {
         if (n <= 1) {
             return false;
@@ -63,6 +96,12 @@ public final class MathUtils {
         return true;
     }
 
+    /**
+     * Calculates divisors of a number by trial division
+     *
+     * @param N integer to be checked
+     * @return list of number's unique divisors
+     */
     private static List<Integer> trialDivisors(int N) {
         final int M = (int) Math.sqrt(N);
         final List<Integer> small = new ArrayList<>();
@@ -89,6 +128,12 @@ public final class MathUtils {
         return small;
     }
 
+    /**
+     * Calculates divisors of a number by prime factorization
+     *
+     * @param N integer to be checked
+     * @return set of number's unique divisors
+     */
     public static Set<Integer> getDivisors(int N, List<Integer> primes) {
         if (!DIVISORS.containsKey(N)) {
             final List<Integer> localPrimes = new ArrayList<>();
@@ -111,6 +156,9 @@ public final class MathUtils {
         return DIVISORS.get(N);
     }
 
+    /**
+     * Helper recursive method to calculate divisors by prime factorization
+     */
     private static void calculateDivisors(Set<Integer> divisors, List<Integer> primes, int start, int target, int sqrt, int cur) {
         if (target % cur == 0 && cur != 1) {
             divisors.add(cur);
@@ -132,24 +180,30 @@ public final class MathUtils {
         }
     }
 
-    public static List<Integer> sieveOfEratosthenes(int n) {
-        final BitSet prime = new BitSet(Math.max(3, n + 1));
+    /**
+     * Calculates prime numbers up to Nth inclusive by sieve of Eratosthenes
+     *
+     * @param N desired prime number
+     * @return list of prime numbers
+     */
+    public static List<Integer> sieveOfEratosthenes(int N) {
+        final BitSet prime = new BitSet(Math.max(3, N + 1));
         final List<Integer> primes = new ArrayList<>();
         prime.set(0, false);
         prime.set(1, false);
-        prime.set(2, n + 1, true);
-        final int m = (int) Math.sqrt(n) + 1;
+        prime.set(2, N + 1, true);
+        final int m = (int) Math.sqrt(N) + 1;
 
         for (int i = 2; i <= m; i++) {
             if (prime.get(i)) {
                 primes.add(i);
-                for (int k = i * i; k <= n; k += i) {
+                for (int k = i * i; k <= N; k += i) {
                     prime.set(k, false);
                 }
             }
         }
 
-        for (int i = m + 1; i <= n; i++) {
+        for (int i = m + 1; i <= N; i++) {
             if (prime.get(i)) {
                 primes.add(i);
             }
@@ -158,6 +212,12 @@ public final class MathUtils {
         return primes;
     }
 
+    /**
+     * Calculates prime numbers on interval [N, M] by segment sieve of Eratosthenes
+     *
+     * @param N desired prime number
+     * @return list of prime numbers
+     */
     public static List<Integer> segmentSieve(int N, int M) {
         if (N >= M) {
             return new ArrayList<>();
@@ -196,50 +256,42 @@ public final class MathUtils {
         return primesList;
     }
 
-    private static BigInteger binomial(int N, int K, List<Integer> primes) {
-        int i = 0;
-        int curPrime;
-        BigInteger result = BigInteger.ONE;
-        while (primes.get(i) <= N) {
-            curPrime = primes.get(i);
-            final BigInteger powersOfPrime = (powerOfPrimeInFactorial(N, curPrime)
-                    .subtract(powerOfPrimeInFactorial(K, curPrime)))
-                    .subtract(powerOfPrimeInFactorial(N - K, curPrime));
-            if (powersOfPrime.compareTo(BigInteger.ZERO) > 0) {
-                result = result.multiply(BigInteger.valueOf(curPrime).pow(powersOfPrime.intValue()));
-            }
-            i++;
-        }
-
-        return result;
-    }
-
-    private static BigInteger powerOfPrimeInFactorial(int N, int prime) {
-        int result = 0;
-        for (long p = prime; p <= N; p *= prime) {
-            result = result + (int) (N / p);
-        }
-
-        return BigInteger.valueOf(result);
-    }
-
+    /**
+     * Calculates sum of arithmetic progression in array
+     *
+     * @param a input array, containing arithmetic progression
+     * @return sum of arithmetic progression
+     */
     public static int sumOfArithmeticProgression(int[] a) {
         return a.length * (a[0] + a[a.length - 1]) / 2;
     }
 
+    /**
+     * Calculates sum of arithmetic progression
+     *
+     * @param start first term
+     * @param end   last term
+     * @return sum of arithmetic progression
+     */
     public static BigInteger sumOfArithmeticProgression(BigInteger start, BigInteger end, long length) {
         return BigInteger.valueOf(length).multiply(start.add(end)).divide(BigInteger.valueOf(2));
     }
 
-    public static BigInteger fastFibonacciDoubling(long n) {
+    /**
+     * Calculates Nth Fibonacci number
+     *
+     * @param N position of Fibonacci number
+     * @return sum of arithmetic progression
+     */
+    public static BigInteger fastFibonacciDoubling(long N) {
         BigInteger a = BigInteger.ZERO;
         BigInteger b = BigInteger.ONE;
-        for (long i = 63 - Long.numberOfLeadingZeros(n); i >= 0; i--) {
+        for (long i = 63 - Long.numberOfLeadingZeros(N); i >= 0; i--) {
             BigInteger d = a.multiply(b.shiftLeft(1).subtract(a));
             BigInteger e = a.multiply(a).add(a.multiply(b));
             a = d;
             b = e;
-            if (((n >>> i) & 1) != 0) {
+            if (((N >>> i) & 1) != 0) {
                 BigInteger c = a.add(b);
                 a = b;
                 b = c;
@@ -248,7 +300,43 @@ public final class MathUtils {
         return a;
     }
 
+    /**
+     * Calculates Nth triangular number
+     *
+     * @param N triangular number position
+     * @return triangular number
+     */
     public static long findTriangularNumber(int N) {
         return (long) N * (N - 1) / 2;
+    }
+
+    /**
+     * Calculates integer square root of N by Herons method
+     *
+     * @param N number to be square rooted
+     * @return integer square root of N
+     */
+    public static BigInteger sqrt(BigInteger N) {
+        if (N.signum() >= 0) {
+            final int bitLength = N.bitLength();
+            BigInteger root = BigInteger.ONE.shiftLeft(bitLength / 2);
+
+            while (!isSqrt(N, root)) {
+                root = root.add(N.divide(root)).divide(TWO);
+            }
+            return root;
+        } else {
+            throw new ArithmeticException("square root of negative number");
+        }
+    }
+
+    /**
+     * Helper method for calculating square root
+     */
+    private static boolean isSqrt(BigInteger n, BigInteger root) {
+        final BigInteger lowerBound = root.pow(2);
+        final BigInteger upperBound = root.add(BigInteger.ONE).pow(2);
+
+        return lowerBound.compareTo(n) <= 0 && n.compareTo(upperBound) < 0;
     }
 }
