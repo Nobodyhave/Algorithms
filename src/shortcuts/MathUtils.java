@@ -1,10 +1,15 @@
 package shortcuts;
 
+import java.math.BigDecimal;
 import java.math.BigInteger;
+import java.math.RoundingMode;
 import java.util.*;
 
+@SuppressWarnings("unused")
 public final class MathUtils {
     private static final BigInteger TWO = BigInteger.valueOf(2);
+    private static final BigDecimal SQRT_DIG = new BigDecimal(150);
+    private static final BigDecimal SQRT_PRE = new BigDecimal(10).pow(SQRT_DIG.intValue());
     private static final Map<Integer, Set<Integer>> DIVISORS = new HashMap<>();
 
     private MathUtils() {
@@ -339,4 +344,71 @@ public final class MathUtils {
 
         return lowerBound.compareTo(n) <= 0 && n.compareTo(upperBound) < 0;
     }
+
+    /**
+     * Calculates modulo of exponent, done by Russian peasant multiplication
+     *
+     * @param x   base
+     * @param exp exponent
+     * @param mod modulo
+     * @return integer square root of N
+     */
+    private static BigInteger modPowByExponent(BigInteger x, long exp, BigInteger mod) {
+        if (mod.compareTo(BigInteger.ONE) == 0) {
+            return BigInteger.ZERO;
+        }
+
+        BigInteger result = BigInteger.ONE;
+        BigInteger base = x.mod(mod);
+
+        while (exp > 0) {
+            if (exp % 2 == 1) {
+                result = (result.multiply(base)).mod(mod);
+            }
+            exp = exp >> 1;
+            base = base.multiply(base).mod(mod);
+        }
+
+        return result;
+    }
+
+    /**
+     * Fast square root calculation for BigDecimal using Karp's Tricks with 32 digits precision
+     *
+     * @param value input value to be square rooted
+     * @return square root of value
+     */
+    public static BigDecimal sqrtFast(BigDecimal value) {
+        BigDecimal x = new BigDecimal(Math.sqrt(value.doubleValue()));
+        return x.add(new BigDecimal(value.subtract(x.multiply(x)).doubleValue() / (x.doubleValue() * 2.0)));
+    }
+
+    /**
+     * Uses Newton Raphson to compute the square root of a BigDecimal.
+     *
+     * @param value input value to be square rooted
+     * @return square root of input value
+     */
+    public static BigDecimal sqrtBig(BigDecimal value) {
+        return sqrtBig(value, new BigDecimal(1), new BigDecimal(1).divide(SQRT_PRE, RoundingMode.HALF_DOWN));
+    }
+
+    /**
+     * Private utility method used to compute the square root of a BigDecimal.
+     */
+    private static BigDecimal sqrtBig(BigDecimal c, BigDecimal xn, BigDecimal precision) {
+        BigDecimal fx = xn.pow(2).add(c.negate());
+        BigDecimal fpx = xn.multiply(new BigDecimal(2));
+        BigDecimal xn1 = fx.divide(fpx, 2 * SQRT_DIG.intValue(), RoundingMode.HALF_DOWN);
+        xn1 = xn.add(xn1.negate());
+        BigDecimal currentSquare = xn1.pow(2);
+        BigDecimal currentPrecision = currentSquare.subtract(c);
+        currentPrecision = currentPrecision.abs();
+        if (currentPrecision.compareTo(precision) <= -1) {
+            return xn1;
+        }
+        return sqrtBig(c, xn1, precision);
+    }
+
+
 }

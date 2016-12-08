@@ -71,7 +71,7 @@ public final class CombinatorialUtils {
         int i = 0;
         int curPrime;
         BigInteger result = BigInteger.ONE;
-        while (primes.get(i) <= N) {
+        while (i < primes.size() && primes.get(i) <= N) {
             curPrime = primes.get(i);
             final BigInteger powersOfPrime = (powerOfPrimeInFactorial(N, curPrime)
                     .subtract(powerOfPrimeInFactorial(K, curPrime)))
