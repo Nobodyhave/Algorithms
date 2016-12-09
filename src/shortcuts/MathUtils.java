@@ -410,5 +410,59 @@ public final class MathUtils {
         return sqrtBig(c, xn1, precision);
     }
 
+    /**
+     * @param A   F0 from Fibonacci sequence
+     * @param B   F1 from Fibonacci sequence
+     * @param N   Fibonacci number to find
+     * @param mod Modulo
+     * @return Fn from Fibonacci sequence
+     */
+    private static long fibonacciMatrixExponentiation(int A, int B, int N, int mod) {
+        if (N == 0) {
+            return A;
+        } else if (N == 1) {
+            return B;
+        }
+
+        long[][] fib = {{1, 1}, {1, 0}};
+        long[][] result = {{1, 0}, {0, 1}};
+        long[][] tmp = {{0, 0}, {0, 0}};
+        int i, j, k;
+        while (N > 0) {
+            if ((N & 1) == 1) {
+                Arrays.fill(tmp[0], 0);
+                Arrays.fill(tmp[1], 0);
+                for (i = 0; i < 2; i++) {
+                    for (j = 0; j < 2; j++) {
+                        for (k = 0; k < 2; k++) {
+                            tmp[i][j] = (tmp[i][j] + result[i][k] * fib[k][j]);
+                        }
+                    }
+                }
+                for (i = 0; i < 2; i++) {
+                    for (j = 0; j < 2; j++) {
+                        result[i][j] = tmp[i][j] % mod;
+                    }
+                }
+            }
+
+            Arrays.fill(tmp[0], 0);
+            Arrays.fill(tmp[1], 0);
+            for (i = 0; i < 2; i++) {
+                for (j = 0; j < 2; j++) {
+                    for (k = 0; k < 2; k++) {
+                        tmp[i][j] = (tmp[i][j] + fib[i][k] * fib[k][j]);
+                    }
+                }
+            }
+            for (i = 0; i < 2; i++) {
+                for (j = 0; j < 2; j++) {
+                    fib[i][j] = tmp[i][j] % mod;
+                }
+            }
+            N >>= 1;
+        }
+        return (result[1][0] * B + result[1][1] * A) % mod;
+    }
 
 }
