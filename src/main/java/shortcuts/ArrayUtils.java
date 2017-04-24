@@ -1,5 +1,8 @@
 package shortcuts;
 
+import java.util.Random;
+import java.util.concurrent.ThreadLocalRandom;
+
 public final class ArrayUtils {
 
     private ArrayUtils() {
@@ -46,4 +49,17 @@ public final class ArrayUtils {
         a[j] = temp;
     }
 
+
+    /**
+     * Shuffles array
+     *
+     * @param a Array to shuffke
+     */
+    public static void shuffleArray(int[] a) {
+        final Random rnd = ThreadLocalRandom.current();
+        for (int i = a.length - 1; i > 0; i--) {
+            int index = rnd.nextInt(i + 1);
+            swap(a, i, index);
+        }
+    }
 }
