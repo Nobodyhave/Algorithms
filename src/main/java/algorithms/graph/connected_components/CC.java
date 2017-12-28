@@ -5,7 +5,7 @@
  *  Data files:   http://algs4.cs.princeton.edu/41graph/tinyG.txt
  *
  *  Compute connected components using depth first search.
- *  Runs in O(E + V) time.
+ *  Runs in O(edgeCount + vertexCount) time.
  *
  *  % java CC tinyG.txt
  *  3 components
@@ -46,9 +46,9 @@ import edu.princeton.cs.algs4.StdOut;
 
  *  <p>
  *  This implementation uses depth-first search.
- *  The constructor takes time proportional to <em>V</em> + <em>E</em>
+ *  The constructor takes time proportional to <em>vertexCount</em> + <em>edgeCount</em>
  *  (in the worst case),
- *  where <em>V</em> is the number of vertices and <em>E</em> is the number of edges.
+ *  where <em>vertexCount</em> is the number of vertices and <em>edgeCount</em> is the number of edges.
  *  Afterwards, the <em>id</em>, <em>count</em>, <em>connected</em>,
  *  and <em>size</em> operations take constant time.
  *  <p>

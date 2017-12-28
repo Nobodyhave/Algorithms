@@ -7,7 +7,7 @@
  *                http://algs4.cs.princeton.edu/42digraph/tinyDG.txt
  *
  *  Compute preorder and postorder for a digraph or edge-weighted digraph.
- *  Runs in O(E + V) time.
+ *  Runs in O(edgeCount + vertexCount) time.
  *
  *  % java DepthFirstOrder tinyDAG.txt
  *     v  pre post
@@ -41,11 +41,11 @@ import edu.princeton.cs.algs4.*;
  *  or edge-weighted digraph, including preorder, postorder, and reverse postorder.
  *  <p>
  *  This implementation uses depth-first search.
- *  The constructor takes time proportional to <em>V</em> + <em>E</em>
+ *  The constructor takes time proportional to <em>vertexCount</em> + <em>edgeCount</em>
  *  (in the worst case),
- *  where <em>V</em> is the number of vertices and <em>E</em> is the number of edges.
+ *  where <em>vertexCount</em> is the number of vertices and <em>edgeCount</em> is the number of edges.
  *  Afterwards, the <em>preorder</em>, <em>postorder</em>, and <em>reverse postorder</em>
- *  operation takes take time proportional to <em>V</em>.
+ *  operation takes take time proportional to <em>vertexCount</em>.
  *  <p>
  *  <p>
  *  For additional documentation,

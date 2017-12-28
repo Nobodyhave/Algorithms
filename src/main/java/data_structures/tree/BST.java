@@ -7,7 +7,7 @@
  *  A symbol table implemented with a binary search tree.
  * 
  *  % more tinyST.txt
- *  S E A R C H E X A M P L E
+ *  S edgeCount A R C H edgeCount X A M P L edgeCount
  *  
  *  % java BST < tinyST.txt
  *  A 8

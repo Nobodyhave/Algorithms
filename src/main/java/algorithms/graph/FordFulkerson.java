@@ -1,6 +1,6 @@
 /******************************************************************************
  *  Compilation:  javac FordFulkerson.java
- *  Execution:    java FordFulkerson V E
+ *  Execution:    java FordFulkerson vertexCount edgeCount
  *  Dependencies: FlowNetwork.java FlowEdge.java Queue.java
  *
  *  Ford-Fulkerson algorithm for computing a max flow and 
@@ -23,10 +23,10 @@ import edu.princeton.cs.algs4.StdOut;
  *  <p>
  *  This implementation uses the <em>Ford-Fulkerson</em> algorithm with
  *  the <em>shortest augmenting path</em> heuristic.
- *  The constructor takes time proportional to <em>E V</em> (<em>E</em> + <em>V</em>)
+ *  The constructor takes time proportional to <em>edgeCount vertexCount</em> (<em>edgeCount</em> + <em>vertexCount</em>)
  *  in the worst case and extra space (not including the network)
- *  proportional to <em>V</em>, where <em>V</em> is the number of vertices
- *  and <em>E</em> is the number of edges. In practice, the algorithm will
+ *  proportional to <em>vertexCount</em>, where <em>vertexCount</em> is the number of vertices
+ *  and <em>edgeCount</em> is the number of edges. In practice, the algorithm will
  *  run much faster.
  *  Afterwards, the <tt>inCut()</tt> and <tt>value()</tt> methods take
  *  constant time.
@@ -57,8 +57,8 @@ public class FordFulkerson {
      * @param  G the flow network
      * @param  s the source vertex
      * @param  t the sink vertex
-     * @throws IndexOutOfBoundsException unless 0 <= s < V
-     * @throws IndexOutOfBoundsException unless 0 <= t < V
+     * @throws IndexOutOfBoundsException unless 0 <= s < vertexCount
+     * @throws IndexOutOfBoundsException unless 0 <= t < vertexCount
      * @throws IllegalArgumentException if s = t
      * @throws IllegalArgumentException if initial flow is infeasible
      */
@@ -104,7 +104,7 @@ public class FordFulkerson {
      *
      * @return <tt>true</tt> if vertex <tt>v</tt> is on the <tt>s</tt> side of the micut;
      *         <tt>false</tt> otherwise
-     * @throws IndexOutOfBoundsException unless 0 <= v < V
+     * @throws IndexOutOfBoundsException unless 0 <= v < vertexCount
      */
     public boolean inCut(int v)  {
         validate(v, marked.length);
@@ -241,7 +241,7 @@ public class FordFulkerson {
      */
     public static void main(String[] args) {
 
-        // create flow network with V vertices and E edges
+        // create flow network with vertexCount vertices and edgeCount edges
         int V = Integer.parseInt(args[0]);
         int E = Integer.parseInt(args[1]);
         int s = 0, t = V-1;

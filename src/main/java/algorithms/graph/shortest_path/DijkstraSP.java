@@ -40,8 +40,8 @@ import edu.princeton.cs.algs4.*;
  *  where the edge weights are nonnegative.
  *  <p>
  *  This implementation uses Dijkstra's algorithm with a binary heap.
- *  The constructor takes time proportional to <em>E</em> log <em>V</em>,
- *  where <em>V</em> is the number of vertices and <em>E</em> is the number of edges.
+ *  The constructor takes time proportional to <em>edgeCount</em> log <em>vertexCount</em>,
+ *  where <em>vertexCount</em> is the number of vertices and <em>edgeCount</em> is the number of edges.
  *  Afterwards, the <tt>distTo()</tt> and <tt>hasPathTo()</tt> methods take
  *  constant time and the <tt>pathTo()</tt> method takes time proportional to the
  *  number of edges in the shortest path returned.
@@ -65,7 +65,7 @@ public class DijkstraSP {
      * @param  G the edge-weighted digraph
      * @param  s the source vertex
      * @throws IllegalArgumentException if an edge weight is negative
-     * @throws IllegalArgumentException unless 0 &le; <tt>s</tt> &le; <tt>V</tt> - 1
+     * @throws IllegalArgumentException unless 0 &le; <tt>s</tt> &le; <tt>vertexCount</tt> - 1
      */
     public DijkstraSP(EdgeWeightedDigraph G, int s) {
         for (DirectedEdge e : G.edges()) {

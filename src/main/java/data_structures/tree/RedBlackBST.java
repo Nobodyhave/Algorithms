@@ -11,7 +11,7 @@
  *        by default.
  *
  *  % more tinyST.txt
- *  S E A R C H E X A M P L E
+ *  S edgeCount A R C H edgeCount X A M P L edgeCount
  *  
  *  % java RedBlackBST < tinyST.txt
  *  A 8

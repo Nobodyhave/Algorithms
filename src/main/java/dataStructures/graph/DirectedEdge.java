@@ -7,7 +7,7 @@
  *
  ******************************************************************************/
 
-package data_structures.graph;
+package dataStructures.graph;
 
 import edu.princeton.cs.algs4.EdgeWeightedDigraph;
 import edu.princeton.cs.algs4.StdOut;

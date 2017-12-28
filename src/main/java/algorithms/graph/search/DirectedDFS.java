@@ -1,12 +1,12 @@
 /******************************************************************************
  *  Compilation:  javac DirectedDFS.java
- *  Execution:    java DirectedDFS V E
+ *  Execution:    java DirectedDFS vertexCount edgeCount
  *  Dependencies: Digraph.java Bag.java In.java StdOut.java
  *  Data files:   http://algs4.cs.princeton.edu/42digraph/tinyDG.txt
  *
  *  Determine single-source or multiple-source reachability in a digraph
  *  using depth first search.
- *  Runs in O(E + V) time.
+ *  Runs in O(edgeCount + vertexCount) time.
  *
  *  % java DirectedDFS tinyDG.txt 1
  *  1
@@ -30,9 +30,9 @@ import edu.princeton.cs.algs4.*;
  *  see {@link DepthFirstDirectedPaths} and {@link BreadthFirstDirectedPaths}.
  *  <p>
  *  This implementation uses depth-first search.
- *  The constructor takes time proportional to <em>V</em> + <em>E</em>
+ *  The constructor takes time proportional to <em>vertexCount</em> + <em>edgeCount</em>
  *  (in the worst case),
- *  where <em>V</em> is the number of vertices and <em>E</em> is the number of edges.
+ *  where <em>vertexCount</em> is the number of vertices and <em>edgeCount</em> is the number of edges.
  *  <p>
  *  For additional documentation,
  *  see <a href="http://algs4.cs.princeton.edu/42digraph">Section 4.2</a> of

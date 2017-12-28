@@ -5,7 +5,7 @@
  *  Data files:   http://algs4.cs.princeton.edu/41graph/tinyG.txt
  *
  *  Run depth first search on an undirected graph.
- *  Runs in O(E + V) time.
+ *  Runs in O(edgeCount + vertexCount) time.
  *
  *  % java DepthFirstSearch tinyG.txt 0
  *  0 1 2 3 4 5 6 
@@ -31,10 +31,10 @@ import edu.princeton.cs.algs4.StdOut;
  *  {@link DepthFirstPaths} and {@link BreadthFirstPaths}.
  *  <p>
  *  This implementation uses depth-first search.
- *  The constructor takes time proportional to <em>V</em> + <em>E</em>
+ *  The constructor takes time proportional to <em>vertexCount</em> + <em>edgeCount</em>
  *  (in the worst case),
- *  where <em>V</em> is the number of vertices and <em>E</em> is the number of edges.
- *  It uses extra space (not including the graph) proportional to <em>V</em>.
+ *  where <em>vertexCount</em> is the number of vertices and <em>edgeCount</em> is the number of edges.
+ *  It uses extra space (not including the graph) proportional to <em>vertexCount</em>.
  *  <p>
  *  For additional documentation, see <a href="http://algs4.cs.princeton.edu/41graph">Section 4.1</a>   
  *  of <i>Algorithms, 4th Edition</i> by Robert Sedgewick and Kevin Wayne.

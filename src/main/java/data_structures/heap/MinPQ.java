@@ -7,7 +7,7 @@
  *  Can be used with a comparator instead of the natural order.
  *
  *  % java MinPQ < tinyPQ.txt
- *  E A E (6 left on pq)
+ *  edgeCount A edgeCount (6 left on pq)
  *
  *  We use a one-based array to simplify parent and child calculations.
  *

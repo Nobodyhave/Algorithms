@@ -7,7 +7,7 @@
  *  Data files:   http://algs4.cs.princeton.edu/42digraph/jobs.txt
  *
  *  Compute topological ordering of a DAG or edge-weighted DAG.
- *  Runs in O(E + V) time.
+ *  Runs in O(edgeCount + vertexCount) time.
  *
  *  % java Topological jobs.txt "/"
  *  Calculus
@@ -40,11 +40,11 @@ import edu.princeton.cs.algs4.*;
  *  returns one.
  *  <p>
  *  This implementation uses depth-first search.
- *  The constructor takes time proportional to <em>V</em> + <em>E</em>
+ *  The constructor takes time proportional to <em>vertexCount</em> + <em>edgeCount</em>
  *  (in the worst case),
- *  where <em>V</em> is the number of vertices and <em>E</em> is the number of edges.
+ *  where <em>vertexCount</em> is the number of vertices and <em>edgeCount</em> is the number of edges.
  *  Afterwards, the <em>hasOrder</em> and <em>rank</em> operations takes constant time;
- *  the <em>order</em> operation takes time proportional to <em>V</em>.
+ *  the <em>order</em> operation takes time proportional to <em>vertexCount</em>.
  *  <p>
  *  See {@link algorithms.graph.topological.DirectedCycle}, {@link DirectedCycleX}, and
  *  {@link EdgeWeightedDirectedCycle} to compute a
@@ -119,7 +119,7 @@ public class Topological {
      * @return the position of vertex <tt>v</tt> in a topological order
      *    of the digraph; -1 if the digraph is not a DAG
      * @throws IndexOutOfBoundsException unless <tt>v</tt> is between 0 and
-     *    <em>V</em> &minus; 1
+     *    <em>vertexCount</em> &minus; 1
      */
     public int rank(int v) {
         validateVertex(v);
@@ -127,7 +127,7 @@ public class Topological {
         else            return -1;
     }
 
-    // throw an IndexOutOfBoundsException unless 0 <= v < V
+    // throw an IndexOutOfBoundsException unless 0 <= v < vertexCount
     private void validateVertex(int v) {
         int V = rank.length;
         if (v < 0 || v >= V)

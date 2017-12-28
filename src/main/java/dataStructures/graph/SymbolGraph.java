@@ -41,7 +41,7 @@
  *
  ******************************************************************************/
 
-package data_structures.graph;
+package dataStructures.graph;
 
 import edu.princeton.cs.algs4.Graph;
 import edu.princeton.cs.algs4.*;
@@ -52,14 +52,14 @@ import edu.princeton.cs.algs4.*;
  *  By providing mappings between string vertex names and integers,
  *  it serves as a wrapper around the
  *  {@link edu.princeton.cs.algs4.Graph} data type, which assumes the vertex names are integers
- *  between 0 and <em>V</em> - 1.
+ *  between 0 and <em>vertexCount</em> - 1.
  *  It also supports initializing a symbol graph from a file.
  *  <p>
  *  This implementation uses an {@link ST} to map from strings to integers,
  *  an array to map from integers to strings, and a {@link edu.princeton.cs.algs4.Graph} to store
  *  the underlying graph.
  *  The <em>index</em> and <em>contains</em> operations take time
- *  proportional to log <em>V</em>, where <em>V</em> is the number of vertices.
+ *  proportional to log <em>vertexCount</em>, where <em>vertexCount</em> is the number of vertices.
  *  The <em>name</em> operation takes constant time.
  *  <p>
  *  For additional documentation, see <a href="http://algs4.cs.princeton.edu/41graph">Section 4.1</a> of
@@ -129,7 +129,7 @@ public class SymbolGraph {
     /**
      * Returns the integer associated with the vertex named <tt>s</tt>.
      * @param s the name of a vertex
-     * @return the integer (between 0 and <em>V</em> - 1) associated with the vertex named <tt>s</tt>
+     * @return the integer (between 0 and <em>vertexCount</em> - 1) associated with the vertex named <tt>s</tt>
      */
     public int index(String s) {
         return st.get(s);
@@ -137,7 +137,7 @@ public class SymbolGraph {
 
     /**
      * Returns the name of the vertex associated with the integer <tt>v</tt>.
-     * @param v the integer corresponding to a vertex (between 0 and <em>V</em> - 1)
+     * @param v the integer corresponding to a vertex (between 0 and <em>vertexCount</em> - 1)
      * @return the name of the vertex associated with the integer <tt>v</tt>
      */
     public String name(int v) {

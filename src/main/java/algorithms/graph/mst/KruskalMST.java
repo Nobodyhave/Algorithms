@@ -50,11 +50,11 @@ import edu.princeton.cs.algs4.*;
  *  <p>
  *  This implementation uses <em>Krusal's algorithm</em> and the
  *  union-find data type.
- *  The constructor takes time proportional to <em>E</em> log <em>E</em>
- *  and extra space (not including the graph) proportional to <em>V</em>,
- *  where <em>V</em> is the number of vertices and <em>E</em> is the number of edges.
+ *  The constructor takes time proportional to <em>edgeCount</em> log <em>edgeCount</em>
+ *  and extra space (not including the graph) proportional to <em>vertexCount</em>,
+ *  where <em>vertexCount</em> is the number of vertices and <em>edgeCount</em> is the number of edges.
  *  Afterwards, the <tt>weight()</tt> method takes constant time
- *  and the <tt>edges()</tt> method takes time proportional to <em>V</em>.
+ *  and the <tt>edges()</tt> method takes time proportional to <em>vertexCount</em>.
  *  <p>
  *  For additional documentation,
  *  see <a href="http://algs4.cs.princeton.edu/43mst">Section 4.3</a> of
@@ -116,7 +116,7 @@ public class KruskalMST {
         return weight;
     }
     
-    // check optimality conditions (takes time proportional to E V lg* V)
+    // check optimality conditions (takes time proportional to edgeCount vertexCount lg* vertexCount)
     private boolean check(EdgeWeightedGraph G) {
 
         // check total weight

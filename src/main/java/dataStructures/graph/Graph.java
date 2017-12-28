@@ -32,7 +32,7 @@
  *  
  ******************************************************************************/
 
-package data_structures.graph;
+package dataStructures.graph;
 
 
 import edu.princeton.cs.algs4.Bag;
@@ -42,11 +42,11 @@ import edu.princeton.cs.algs4.StdOut;
 
 /**
  *  The <tt>Graph</tt> class represents an undirected graph of vertices
- *  named 0 through <em>V</em> - 1.
+ *  named 0 through <em>vertexCount</em> - 1.
  *  It supports the following two primary operations: add an edge to the graph,
  *  iterate over all of the vertices adjacent to a vertex. It also provides
- *  methods for returning the number of vertices <em>V</em> and the number
- *  of edges <em>E</em>. Parallel edges and self-loops are permitted.
+ *  methods for returning the number of vertices <em>vertexCount</em> and the number
+ *  of edges <em>edgeCount</em>. Parallel edges and self-loops are permitted.
  *  <p>
  *  This implementation uses an adjacency-lists representation, which 
  *  is a vertex-indexed array of {@link Bag} objects.
@@ -68,11 +68,11 @@ public class Graph {
     private Bag<Integer>[] adj;
     
     /**
-     * Initializes an empty graph with <tt>V</tt> vertices and 0 edges.
-     * param V the number of vertices
+     * Initializes an empty graph with <tt>vertexCount</tt> vertices and 0 edges.
+     * param vertexCount the number of vertices
      *
      * @param  V number of vertices
-     * @throws IllegalArgumentException if <tt>V</tt> < 0
+     * @throws IllegalArgumentException if <tt>vertexCount</tt> < 0
      */
     public Graph(int V) {
         if (V < 0) throw new IllegalArgumentException("Number of vertices must be nonnegative");
@@ -86,9 +86,9 @@ public class Graph {
 
     /**  
      * Initializes a graph from an input stream.
-     * The format is the number of vertices <em>V</em>,
-     * followed by the number of edges <em>E</em>,
-     * followed by <em>E</em> pairs of vertices, with each entry separated by whitespace.
+     * The format is the number of vertices <em>vertexCount</em>,
+     * followed by the number of edges <em>edgeCount</em>,
+     * followed by <em>edgeCount</em> pairs of vertices, with each entry separated by whitespace.
      *
      * @param  in the input stream
      * @throws IndexOutOfBoundsException if the endpoints of any edge are not in prescribed range
@@ -111,9 +111,9 @@ public class Graph {
      * @param  G the graph to copy
      */
     public Graph(Graph G) {
-        this(G.V());
-        this.E = G.E();
-        for (int v = 0; v < G.V(); v++) {
+        this(G.vertexCount());
+        this.E = G.edgeCount();
+        for (int v = 0; v < G.vertexCount(); v++) {
             // reverse so that adjacency list is in same order as original
             Stack<Integer> reverse = new Stack<Integer>();
             for (int w : G.adj[v]) {
@@ -143,7 +143,7 @@ public class Graph {
         return E;
     }
 
-    // throw an IndexOutOfBoundsException unless 0 <= v < V
+    // throw an IndexOutOfBoundsException unless 0 <= v < vertexCount
     private void validateVertex(int v) {
         if (v < 0 || v >= V)
             throw new IndexOutOfBoundsException("vertex " + v + " is not between 0 and " + (V-1));
@@ -154,7 +154,7 @@ public class Graph {
      *
      * @param  v one vertex in the edge
      * @param  w the other vertex in the edge
-     * @throws IndexOutOfBoundsException unless both 0 <= v < V and 0 <= w < V
+     * @throws IndexOutOfBoundsException unless both 0 <= v < vertexCount and 0 <= w < vertexCount
      */
     public void addEdge(int v, int w) {
         validateVertex(v);
@@ -170,7 +170,7 @@ public class Graph {
      *
      * @param  v the vertex
      * @return the vertices adjacent to vertex <tt>v</tt>, as an iterable
-     * @throws IndexOutOfBoundsException unless 0 <= v < V
+     * @throws IndexOutOfBoundsException unless 0 <= v < vertexCount
      */
     public Iterable<Integer> adj(int v) {
         validateVertex(v);
@@ -182,7 +182,7 @@ public class Graph {
      *
      * @param  v the vertex
      * @return the degree of vertex <tt>v</tt>
-     * @throws IndexOutOfBoundsException unless 0 <= v < V
+     * @throws IndexOutOfBoundsException unless 0 <= v < vertexCount
      */
     public int degree(int v) {
         validateVertex(v);
@@ -193,8 +193,8 @@ public class Graph {
     /**
      * Returns a string representation of this graph.
      *
-     * @return the number of vertices <em>V</em>, followed by the number of edges <em>E</em>,
-     *         followed by the <em>V</em> adjacency lists
+     * @return the number of vertices <em>vertexCount</em>, followed by the number of edges <em>edgeCount</em>,
+     *         followed by the <em>vertexCount</em> adjacency lists
      */
     public String toString() {
         StringBuilder s = new StringBuilder();

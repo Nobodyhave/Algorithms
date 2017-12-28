@@ -263,33 +263,33 @@ Adding instance variable edgeTo[] of int values that serves the purpose of the b
 
 [Source code](https://github.com/Nobodyhave/Algorithms/blob/master/src/algorithms/graph/search/DepthFirstPaths.java)
 
-**Time complexity:** O(E+V), E - edges, V - vertices
+**Time complexity:** O(edgeCount+vertexCount), edgeCount - edges, vertexCount - vertices
 
-**Space complexity:** O(V) 
+**Space complexity:** O(vertexCount)
 ### Breadth-first search ###
 **Description:** This algorithm is useful for finding shortest paths. To find a shortest path from s to v, we start at s and check for v among all the vertices that we can reach by following one edge, then we check for v among all the vertices that we can reach from s by following two edges, and so forth. BFS is analogous to a group of searchers exploring by fanning out in all directions, each unrolling his or her own ball of string. When more than one passage needs to be explored, we imagine that the searchers split up to explore all of them; when two groups of searchers meet up, they join forces (using the ball of string held by the one getting there first). In BFS, we want to explore the vertices in order of their distance from the source. It turns out that this order is easily arranged: use a (FIFO) queue instead of a (LIFO) stack. We choose, of the passages yet to be explored, the one that was least recently encountered.
 
 [Source code](https://github.com/Nobodyhave/Algorithms/blob/master/src/algorithms/graph/search/BreadthFirstPaths.java)
 
-**Time complexity:** O(E+V), E - edges, V - vertices
+**Time complexity:** O(edgeCount+vertexCount), edgeCount - edges, vertexCount - vertices
 
-**Space complexity:** O(V)
+**Space complexity:** O(vertexCount)
 ### Connected components ###
 **Description:** CC uses our marked[] array to find a vertex to serve as the starting point for a depth first search in each component. The first call to the recursive DFS is for vertex 0 - it marks all vertices connected to 0. Then the for loop in the constructor looks for an unmarked vertex and calls the recursive dfs() to mark all vertices connected to that vertex. Moreover, it maintains a vertex-indexed array id[] that associates the same int value to every vertex in each component. This array makes the implementation of connected() simple.
 
 [Source code](https://github.com/Nobodyhave/Algorithms/blob/master/src/algorithms/graph/connected_components/CC.java)
 
-**Time complexity:** O(E+V), E - edges, V - vertices
+**Time complexity:** O(edgeCount+vertexCount), edgeCount - edges, vertexCount - vertices
 
-**Space complexity:** O(V)  
+**Space complexity:** O(vertexCount)
 ### Directed depth-first search ###
 **Description:** This algorithm is similar to usual depth first search. The only difference is that we use directed graph instead of usual graph, which means that when we are adding edges to it, we are adding only v->w, without adding w->v edge. Also here we have constructor, which allows us to test multiple-source reachability.
 
 [Source code](https://github.com/Nobodyhave/Algorithms/blob/master/src/algorithms/graph/search/DirectedDFS.java)
 
-**Time complexity:** O(E+V), E - edges, V - vertices
+**Time complexity:** O(edgeCount+vertexCount), edgeCount - edges, vertexCount - vertices
 
-**Space complexity:** O(V) 
+**Space complexity:** O(vertexCount)
 ### Topological sort ###
 **Description:** Solving the directed cycle detection problem thus answers the following question: Is a given digraph a DAG ? Developing a depth-first-search-based solution to this problem is not difficult, based on the fact that the recursive call stack maintained by the system represents the “current” directed path under consideration (like the string back to the entrance in Tremaux maze exploration). If we ever find a directed edge v->w to a vertex w that is on that stack, we have found a cycle, since the stack is evidence of a directed path from w to v, and the edge v->w completes the cycle. Moreover, the absence of any such back edges implies that the graph is acyclic.
 Topological sort is based on the idea that depth-first search visits each vertex exactly once. If we save the vertex given as argument to the recursive dfs() in a data structure, then iterate through that data structure, we see all the graph vertices, in order determined by the nature of the data structure and by whether we do the save before or after the recursive calls. Three vertex orderings are of interest in typical applications:
@@ -303,9 +303,9 @@ Reverse postorder in DAG is a topological sort.
 
 [Source code](https://github.com/Nobodyhave/Algorithms/blob/master/src/algorithms/graph/topological/Topological.java)
 
-**Time complexity:** O(E+V), E - edges, V - vertices
+**Time complexity:** O(edgeCount+vertexCount), edgeCount - edges, vertexCount - vertices
 
-**Space complexity:** O(V) 
+**Space complexity:** O(vertexCount)
 ### Strongly connected components (Kosaraju-Sharir) ###
 **Description:** Two vertices v and w are strongly connected if they are mutually reachable: that is, if there is a directed path from v to w and a directed path from w to v. A digraph is strongly connected if all its vertices are strongly connected to one another.
 The equivalence classes are maximal subsets of vertices that are strongly connected to one another, with each vertex in exactly one subset. We refer to these subsets as strongly connected components, or strong components for short.
@@ -319,74 +319,74 @@ Remarkably, the implementation KosarajuSCC does the job with just a few lines of
 
 [Source code](https://github.com/Nobodyhave/Algorithms/blob/master/src/algorithms/graph/connected_components/KosarajuSharirSCC.java)
 
-**Time complexity:** O(E+V), E - edges, V - vertices
+**Time complexity:** O(edgeCount+vertexCount), edgeCount - edges, vertexCount - vertices
 
-**Space complexity:** O(E+V) 
+**Space complexity:** O(edgeCount+vertexCount)
 ### Lazy Prim minimum spanning tree ###
 **Description:** A cut of a graph is a partition of its vertices into two nonempty disjoint sets. A crossing edge of a cut is an edge that connects a vertex in one set with a vertex in the other.
 Given any cut in an edge-weighted graph, the crossing edge of minimum weight is in the MST of the graph.
 Under our assumption that edge weights are distinct, every connected graph has a unique MST and the cut property says that the shortest crossing edge for every cut must be in the MST.
-Attach a new edge to a single growing tree at each step. Start with any vertex as a single-vertex tree; then add V-1 edges to it, always taking next (colouring black) the minimum weight edge that connects a vertex on the tree to a vertex not yet on the tree (a crossing edge for the cut defined by tree vertices).
+Attach a new edge to a single growing tree at each step. Start with any vertex as a single-vertex tree; then add vertexCount-1 edges to it, always taking next (colouring black) the minimum weight edge that connects a vertex on the tree to a vertex not yet on the tree (a crossing edge for the cut defined by tree vertices).
 Each time that we add an edge to the tree, we also add a vertex to the tree. To maintain the set of crossing edges, we need to add to the priority queue all edges from that vertex to any non-tree vertex (using marked[] to identify such edges). But we must do more: any edge connecting the vertex just added to a tree vertex that is already on the priority queue now becomes ineligible (it is no longer a crossing edge because it connects two tree vertices). An eager implementation of Prim’s algorithm would remove such edges from the priority queue; we first consider a simpler lazy implementation of the algorithm where we leave such edges on the priority queue, deferring the eligibility test to when we remove them.
-After having added V vertices (and V-1 edges), the MST is complete. The remaining edges on the priority queue are ineligible, so we need not examine them again.
+After having added vertexCount vertices (and vertexCount-1 edges), the MST is complete. The remaining edges on the priority queue are ineligible, so we need not examine them again.
 
 [Source code](https://github.com/Nobodyhave/Algorithms/blob/master/src/algorithms/graph/mst/LazyPrimMST.java)
 
-**Time complexity:** O(ElogE), E - edges
+**Time complexity:** O(ElogE), edgeCount - edges
 
-**Space complexity:** O(E) 
+**Space complexity:** O(edgeCount)
 ### Prim minimum spanning tree ###
 **Description:** To improve the LazyPrimMST, we might try to delete ineligible edges from the priority queue, so that the priority queue contains only the crossing edges between tree vertices and non-tree vertices. But we can eliminate even more edges. The key is to note that our only interest is in the minimal edge from each non-tree vertex to a tree vertex. When we add a vertex v to the tree, the only possible change with respect to each nontree vertex w is that adding v brings w closer than before to the tree. In short, we do not need to keep on the priority queue all of the edges from w to tree vertices—we just need to keep track of the minimum-weight edge and check whether the addition of v to the tree necessitates that we update that minimum (because of an edge v-w that has lower weight), which we can do as we process each edge in v’s adjacency list. In other words, we maintain on the priority queue just one edge for each non-tree vertex w : the shortest edge that connects it to the tree. Any longer edge connecting w to the tree will become ineligible at some point, so there is no need to keep it on the priority queue.
 
 [Source code](https://github.com/Nobodyhave/Algorithms/blob/master/src/algorithms/graph/mst/PrimMST.java)
 
-**Time complexity:** O(ElogV), E - edges, V - vertices
+**Time complexity:** O(ElogV), edgeCount - edges, vertexCount - vertices
 
-**Space complexity:** O(V) 
+**Space complexity:** O(vertexCount)
 ### Kruskal minimum spanning tree ###
-**Description:** The second MST algorithm that we consider in detail is to process the edges in order of their weight values (smallest to largest), taking for the MST (colouring black) each edge that does not form a cycle with edges previously added, stopping after adding V-1 edges have been taken. The black edges form a forest of trees that evolves gradually into a single tree, the MST.
+**Description:** The second MST algorithm that we consider in detail is to process the edges in order of their weight values (smallest to largest), taking for the MST (colouring black) each edge that does not form a cycle with edges previously added, stopping after adding vertexCount-1 edges have been taken. The black edges form a forest of trees that evolves gradually into a single tree, the MST.
 Kruskal’s algorithm is also not difficult to implement, given the basic algorithmic tools: we use a priority queue to consider the edges in order by weight, a union-find data structure to identify those that cause cycles, and a queue to collect the MST edges.
 
 [Source code](https://github.com/Nobodyhave/Algorithms/blob/master/src/algorithms/graph/mst/KruskalMST.java)
 
-**Time complexity:** O(ElogE), E - edges, V - vertices
+**Time complexity:** O(ElogE), edgeCount - edges, vertexCount - vertices
 
-**Space complexity:** O(E) 
+**Space complexity:** O(edgeCount)
 ### Dijkstra shortest paths ###
 **Description:** We build the MST by attaching a new edge to a single growing tree at each step. Dijkstra’s algorithm is an analogous scheme to compute an SPT. We begin by initialising dist[s] to 0 and all other distTo[] entries to positive infinity, then we relax and add to the tree a non-tree vertex with the lowest distTo[] value, continuing until all vertices are on the tree or no non-tree vertex has a finite distTo[] value.
 To implement Dijkstra’s algorithm we add to our distTo[] and edgeTo[] data structures an index priority queue pq to keep track of vertices that are candidates for being the next to be relaxed. Recall that an IndexMinPQ allows us to associate indices with keys (priorities) and to remove and return the index corresponding to the lowest key. For this application, we always associate a vertex v with distTo[v], and we have a direct and immediate implementation of Dijkstra’s algorithm as stated. Moreover, it is immediate by induction that the edgeTo[] entries corresponding to reachable vertices form a tree, the SPT.
 
 [Source code](https://github.com/Nobodyhave/Algorithms/blob/master/src/algorithms/graph/shortest_path/DijkstraSP.java)
 
-**Time complexity:** O(ElogV), E - edges, V - vertices
+**Time complexity:** O(ElogV), edgeCount - edges, vertexCount - vertices
 
-**Space complexity:** O(V) 
+**Space complexity:** O(vertexCount)
 ### Acyclic shortest paths ###
 **Description:** These algorithms are straightforward extensions to the algorithm for topological sort in DAGs. Specifically, vertex relaxation, in combination with topological sorting, immediately presents a solution to the single-source shortest-paths problem for edge-weighted DAGs. We initialize distTo[s] to 0 and all other distTo[] values to infinity, then relax the vertices, one by one, taking the vertices in topological order.
 
 [Source code](https://github.com/Nobodyhave/Algorithms/blob/master/src/algorithms/graph/shortest_path/AcyclicSP.java)
 
-**Time complexity:** O(E + V), E - edges, V - vertices
+**Time complexity:** O(edgeCount + vertexCount), edgeCount - edges, vertexCount - vertices
 
-**Space complexity:** O(V) 
+**Space complexity:** O(vertexCount)
 ### Bellman-Ford shortest paths ###
-**Description:** The following method solves the single source shortest-paths problem from a given source s for any edge-weighted digraph with V vertices and no negative cycles reachable from s: Initialise distTo[s] to 0 and all other distTo[] values to infinity. Then, considering the digraph’s edges in any order, relax all edges. Make V such passes.
+**Description:** The following method solves the single source shortest-paths problem from a given source s for any edge-weighted digraph with vertexCount vertices and no negative cycles reachable from s: Initialise distTo[s] to 0 and all other distTo[] values to infinity. Then, considering the digraph’s edges in any order, relax all edges. Make vertexCount such passes.
 Specifically, we can easily determine a priori that numerous edges are not going to lead to a successful relaxation in any given pass: the only edges that could lead to a change in distTo[] are those leaving a vertex whose distTo[] value changed in the previous pass. To keep track of such vertices, we use a FIFO queue.
 
 [Source code](https://github.com/Nobodyhave/Algorithms/blob/master/src/algorithms/graph/shortest_path/BellmanFordSP.java)
 
-**Time complexity:** O(EV), E - edges, V - vertices
+**Time complexity:** O(EV), edgeCount - edges, vertexCount - vertices
 
-**Space complexity:** O(V) 
+**Space complexity:** O(vertexCount)
 ### Ford-Fulkerson network flow ###
 **Description:** Start with zero flow everywhere. Increase the flow along any augmenting path from source to sink (with no full forward edges or empty backward edges), continuing until there are no such paths in the network.
 To improve the algorithm such that it always finds a maxflow, we consider a more general way to increase the flow, along a path from source to sink through the network’s underlying undirected graph. The edges on any such path are either forward edges, which go with the flow (when we traverse the path from source to sink, we traverse the edge from its source vertex to its destination vertex), or backward edges, which go against the flow (when we traverse the path from source to sink, we traverse the edge from its destination vertex to its  source vertex). Now, for any path with no full forward edges and no empty backward edges, we can increase the amount of flow in the network by increasing flow in forward edges and decreasing flow in backward edges. The amount by which the flow can be increased is limited by the minimum of the unused capacities in the forward edges and the flows in the backward edges. Such a path is called an augmenting path.
 
 [Source code](https://github.com/Nobodyhave/Algorithms/blob/master/src/algorithms/graph/FordFulkerson.java)
 
-**Time complexity:** O(VE<sup>2</sup>), E - edges, V - vertices
+**Time complexity:** O(VE<sup>2</sup>), edgeCount - edges, vertexCount - vertices
 
-**Space complexity:** O(V) 
+**Space complexity:** O(vertexCount)
 ## Data compression ##
 ### Run length encoding ###
 **Description:** TBD

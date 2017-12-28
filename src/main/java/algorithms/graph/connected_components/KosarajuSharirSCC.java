@@ -7,7 +7,7 @@
  *  Compute the strongly-connected components of a digraph using the
  *  Kosaraju-Sharir algorithm.
  *
- *  Runs in O(E + V) time.
+ *  Runs in O(edgeCount + vertexCount) time.
  *
  *  % java KosarajuSCC tinyDG.txt
  *  5 components
@@ -79,9 +79,9 @@ import edu.princeton.cs.algs4.*;
 
  *  <p>
  *  This implementation uses the Kosaraju-Sharir algorithm.
- *  The constructor takes time proportional to <em>V</em> + <em>E</em>
+ *  The constructor takes time proportional to <em>vertexCount</em> + <em>edgeCount</em>
  *  (in the worst case),
- *  where <em>V</em> is the number of vertices and <em>E</em> is the number of edges.
+ *  where <em>vertexCount</em> is the number of vertices and <em>edgeCount</em> is the number of edges.
  *  Afterwards, the <em>id</em>, <em>count</em>, and <em>areStronglyConnected</em>
  *  operations take constant time.
  *  For alternate implementations of the same API, see

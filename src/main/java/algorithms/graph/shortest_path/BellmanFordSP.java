@@ -40,8 +40,8 @@ import edu.princeton.cs.algs4.*;
  *  to every other vertex or a negative cycle reachable from the source vertex.
  *  <p>
  *  This implementation uses the Bellman-Ford-Moore algorithm.
- *  The constructor takes time proportional to <em>V</em> (<em>V</em> + <em>E</em>)
- *  in the worst case, where <em>V</em> is the number of vertices and <em>E</em>
+ *  The constructor takes time proportional to <em>vertexCount</em> (<em>vertexCount</em> + <em>edgeCount</em>)
+ *  in the worst case, where <em>vertexCount</em> is the number of vertices and <em>edgeCount</em>
  *  is the number of edges.
  *  Afterwards, the <tt>distTo()</tt>, <tt>hasPathTo()</tt>, and <tt>hasNegativeCycle()</tt>
  *  methods take constant time; the <tt>pathTo()</tt> and <tt>negativeCycle()</tt>
@@ -67,7 +67,7 @@ public class BellmanFordSP {
      * the edge-weighted digraph <tt>G</tt>.
      * @param G the acyclic digraph
      * @param s the source vertex
-     * @throws IllegalArgumentException unless 0 &le; <tt>s</tt> &le; <tt>V</tt> - 1
+     * @throws IllegalArgumentException unless 0 &le; <tt>s</tt> &le; <tt>vertexCount</tt> - 1
      */
     public BellmanFordSP(EdgeWeightedDigraph G, int s) {
         distTo  = new double[G.V()];

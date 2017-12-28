@@ -25,7 +25,7 @@
  *  
  ******************************************************************************/
 
-package data_structures.graph;
+package dataStructures.graph;
 
 import edu.princeton.cs.algs4.Bag;
 import edu.princeton.cs.algs4.In;
@@ -37,7 +37,7 @@ import java.util.NoSuchElementException;
 
 /**
  *  The <tt>Digraph</tt> class represents a directed graph of vertices
- *  named 0 through <em>V</em> - 1.
+ *  named 0 through <em>vertexCount</em> - 1.
  *  It supports the following two primary operations: add an edge to the digraph,
  *  iterate over all of the vertices adjacent from a given vertex.
  *  Parallel edges and self-loops are permitted.
@@ -65,10 +65,10 @@ public class Digraph {
     private int[] indegree;        // indegree[v] = indegree of vertex v
     
     /**
-     * Initializes an empty digraph with <em>V</em> vertices.
+     * Initializes an empty digraph with <em>vertexCount</em> vertices.
      *
      * @param  V the number of vertices
-     * @throws IllegalArgumentException if V < 0
+     * @throws IllegalArgumentException if vertexCount < 0
      */
     public Digraph(int V) {
         if (V < 0) throw new IllegalArgumentException("Number of vertices in a Digraph must be nonnegative");
@@ -83,9 +83,9 @@ public class Digraph {
 
     /**  
      * Initializes a digraph from the specified input stream.
-     * The format is the number of vertices <em>V</em>,
-     * followed by the number of edges <em>E</em>,
-     * followed by <em>E</em> pairs of vertices, with each entry separated by whitespace.
+     * The format is the number of vertices <em>vertexCount</em>,
+     * followed by the number of edges <em>edgeCount</em>,
+     * followed by <em>edgeCount</em> pairs of vertices, with each entry separated by whitespace.
      *
      * @param  in the input stream
      * @throws IndexOutOfBoundsException if the endpoints of any edge are not in prescribed range
@@ -154,7 +154,7 @@ public class Digraph {
     }
 
 
-    // throw an IndexOutOfBoundsException unless 0 <= v < V
+    // throw an IndexOutOfBoundsException unless 0 <= v < vertexCount
     private void validateVertex(int v) {
         if (v < 0 || v >= V)
             throw new IndexOutOfBoundsException("vertex " + v + " is not between 0 and " + (V-1));
@@ -165,7 +165,7 @@ public class Digraph {
      *
      * @param  v the tail vertex
      * @param  w the head vertex
-     * @throws IndexOutOfBoundsException unless both 0 <= v < V and 0 <= w < V
+     * @throws IndexOutOfBoundsException unless both 0 <= v < vertexCount and 0 <= w < vertexCount
      */
     public void addEdge(int v, int w) {
         validateVertex(v);
@@ -180,7 +180,7 @@ public class Digraph {
      *
      * @param  v the vertex
      * @return the vertices adjacent from vertex <tt>v</tt> in this digraph, as an iterable
-     * @throws IndexOutOfBoundsException unless 0 <= v < V
+     * @throws IndexOutOfBoundsException unless 0 <= v < vertexCount
      */
     public Iterable<Integer> adj(int v) {
         validateVertex(v);
@@ -193,7 +193,7 @@ public class Digraph {
      *
      * @param  v the vertex
      * @return the outdegree of vertex <tt>v</tt>               
-     * @throws IndexOutOfBoundsException unless 0 <= v < V
+     * @throws IndexOutOfBoundsException unless 0 <= v < vertexCount
      */
     public int outdegree(int v) {
         validateVertex(v);
@@ -206,7 +206,7 @@ public class Digraph {
      *
      * @param  v the vertex
      * @return the indegree of vertex <tt>v</tt>               
-     * @throws IndexOutOfBoundsException unless 0 <= v < V
+     * @throws IndexOutOfBoundsException unless 0 <= v < vertexCount
      */
     public int indegree(int v) {
         validateVertex(v);
@@ -231,8 +231,8 @@ public class Digraph {
     /**
      * Returns a string representation of the graph.
      *
-     * @return the number of vertices <em>V</em>, followed by the number of edges <em>E</em>,  
-     *         followed by the <em>V</em> adjacency lists
+     * @return the number of vertices <em>vertexCount</em>, followed by the number of edges <em>edgeCount</em>,
+     *         followed by the <em>vertexCount</em> adjacency lists
      */
     public String toString() {
         StringBuilder s = new StringBuilder();

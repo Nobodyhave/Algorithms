@@ -8,10 +8,10 @@
  *  Sorts a sequence of strings from standard input using quicksort.
  *   
  *  % more tiny.txt
- *  S O R T E X A M P L E
+ *  S O R T edgeCount X A M P L edgeCount
  *
  *  % java Quick < tiny.txt
- *  A E E L M O P R S T X                 [ one string per line ]
+ *  A edgeCount edgeCount L M O P R S T X                 [ one string per line ]
  *
  *  % more words3.txt
  *  bed bug dad yes zoo ... all bad yet

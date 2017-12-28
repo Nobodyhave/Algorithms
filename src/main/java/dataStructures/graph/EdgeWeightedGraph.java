@@ -20,18 +20,18 @@
  *
  ******************************************************************************/
 
-package data_structures.graph;
+package dataStructures.graph;
 
 import edu.princeton.cs.algs4.*;
 
 /**
  *  The <tt>EdgeWeightedGraph</tt> class represents an edge-weighted
- *  graph of vertices named 0 through <em>V</em> - 1, where each
+ *  graph of vertices named 0 through <em>vertexCount</em> - 1, where each
  *  undirected edge is of type {@link Edge} and has a real-valued weight.
  *  It supports the following two primary operations: add an edge to the graph,
  *  iterate over all of the edges incident to a vertex. It also provides
- *  methods for returning the number of vertices <em>V</em> and the number
- *  of edges <em>E</em>. Parallel edges and self-loops are permitted.
+ *  methods for returning the number of vertices <em>vertexCount</em> and the number
+ *  of edges <em>edgeCount</em>. Parallel edges and self-loops are permitted.
  *  <p>
  *  This implementation uses an adjacency-lists representation, which
  *  is a vertex-indexed array of @link{Bag} objects.
@@ -54,10 +54,10 @@ public class EdgeWeightedGraph {
     private Bag<Edge>[] adj;
 
     /**
-     * Initializes an empty edge-weighted graph with <tt>V</tt> vertices and 0 edges.
+     * Initializes an empty edge-weighted graph with <tt>vertexCount</tt> vertices and 0 edges.
      *
      * @param  V the number of vertices
-     * @throws IllegalArgumentException if <tt>V</tt> < 0
+     * @throws IllegalArgumentException if <tt>vertexCount</tt> < 0
      */
     public EdgeWeightedGraph(int V) {
         if (V < 0) throw new IllegalArgumentException("Number of vertices must be nonnegative");
@@ -70,12 +70,12 @@ public class EdgeWeightedGraph {
     }
 
     /**
-     * Initializes a random edge-weighted graph with <tt>V</tt> vertices and <em>E</em> edges.
+     * Initializes a random edge-weighted graph with <tt>vertexCount</tt> vertices and <em>edgeCount</em> edges.
      *
      * @param  V the number of vertices
      * @param  E the number of edges
-     * @throws IllegalArgumentException if <tt>V</tt> < 0
-     * @throws IllegalArgumentException if <tt>E</tt> < 0
+     * @throws IllegalArgumentException if <tt>vertexCount</tt> < 0
+     * @throws IllegalArgumentException if <tt>edgeCount</tt> < 0
      */
     public EdgeWeightedGraph(int V, int E) {
         this(V);
@@ -91,9 +91,9 @@ public class EdgeWeightedGraph {
 
     /**
      * Initializes an edge-weighted graph from an input stream.
-     * The format is the number of vertices <em>V</em>,
-     * followed by the number of edges <em>E</em>,
-     * followed by <em>E</em> pairs of vertices and edge weights,
+     * The format is the number of vertices <em>vertexCount</em>,
+     * followed by the number of edges <em>edgeCount</em>,
+     * followed by <em>edgeCount</em> pairs of vertices and edge weights,
      * with each entry separated by whitespace.
      *
      * @param  in the input stream
@@ -152,7 +152,7 @@ public class EdgeWeightedGraph {
         return E;
     }
 
-    // throw an IndexOutOfBoundsException unless 0 <= v < V
+    // throw an IndexOutOfBoundsException unless 0 <= v < vertexCount
     private void validateVertex(int v) {
         if (v < 0 || v >= V)
             throw new IndexOutOfBoundsException("vertex " + v + " is not between 0 and " + (V-1));
@@ -162,7 +162,7 @@ public class EdgeWeightedGraph {
      * Adds the undirected edge <tt>e</tt> to this edge-weighted graph.
      *
      * @param  e the edge
-     * @throws IndexOutOfBoundsException unless both endpoints are between 0 and V-1
+     * @throws IndexOutOfBoundsException unless both endpoints are between 0 and vertexCount-1
      */
     public void addEdge(Edge e) {
         int v = e.either();
@@ -179,7 +179,7 @@ public class EdgeWeightedGraph {
      *
      * @param  v the vertex
      * @return the edges incident on vertex <tt>v</tt> as an Iterable
-     * @throws IndexOutOfBoundsException unless 0 <= v < V
+     * @throws IndexOutOfBoundsException unless 0 <= v < vertexCount
      */
     public Iterable<Edge> adj(int v) {
         validateVertex(v);
@@ -191,7 +191,7 @@ public class EdgeWeightedGraph {
      *
      * @param  v the vertex
      * @return the degree of vertex <tt>v</tt>
-     * @throws IndexOutOfBoundsException unless 0 <= v < V
+     * @throws IndexOutOfBoundsException unless 0 <= v < vertexCount
      */
     public int degree(int v) {
         validateVertex(v);
@@ -225,10 +225,10 @@ public class EdgeWeightedGraph {
 
     /**
      * Returns a string representation of the edge-weighted graph.
-     * This method takes time proportional to <em>E</em> + <em>V</em>.
+     * This method takes time proportional to <em>edgeCount</em> + <em>vertexCount</em>.
      *
-     * @return the number of vertices <em>V</em>, followed by the number of edges <em>E</em>,
-     *         followed by the <em>V</em> adjacency lists of edges
+     * @return the number of vertices <em>vertexCount</em>, followed by the number of edges <em>edgeCount</em>,
+     *         followed by the <em>vertexCount</em> adjacency lists of edges
      */
     public String toString() {
         StringBuilder s = new StringBuilder();

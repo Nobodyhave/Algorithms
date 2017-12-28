@@ -1,6 +1,6 @@
 /******************************************************************************
  *  Compilation:  javac AcyclicSP.java
- *  Execution:    java AcyclicSP V E
+ *  Execution:    java AcyclicSP vertexCount edgeCount
  *  Dependencies: EdgeWeightedDigraph.java DirectedEdge.java Topological.java
  *  Data files:   http://algs4.cs.princeton.edu/44sp/tinyEWDAG.txt
  *
@@ -29,8 +29,8 @@ import edu.princeton.cs.algs4.Topological;
  *  graphs (DAGs). The edge weights can be positive, negative, or zero.
  *  <p>
  *  This implementation uses a topological-sort based algorithm.
- *  The constructor takes time proportional to <em>V</em> + <em>E</em>,
- *  where <em>V</em> is the number of vertices and <em>E</em> is the number of edges.
+ *  The constructor takes time proportional to <em>vertexCount</em> + <em>edgeCount</em>,
+ *  where <em>vertexCount</em> is the number of vertices and <em>edgeCount</em> is the number of edges.
  *  Afterwards, the <tt>distTo()</tt> and <tt>hasPathTo()</tt> methods take
  *  constant time and the <tt>pathTo()</tt> method takes time proportional to the
  *  number of edges in the shortest path returned.
@@ -53,7 +53,7 @@ public class AcyclicSP {
      * @param G the acyclic digraph
      * @param s the source vertex
      * @throws IllegalArgumentException if the digraph is not acyclic
-     * @throws IllegalArgumentException unless 0 &le; <tt>s</tt> &le; <tt>V</tt> - 1
+     * @throws IllegalArgumentException unless 0 &le; <tt>s</tt> &le; <tt>vertexCount</tt> - 1
      */
     public AcyclicSP(EdgeWeightedDigraph G, int s) {
         distTo = new double[G.V()];

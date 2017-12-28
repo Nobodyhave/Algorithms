@@ -6,7 +6,7 @@
  *                http://algs4.cs.princeton.edu/42digraph/tinyDAG.txt
  *
  *  Finds a directed cycle in a digraph.
- *  Runs in O(E + V) time.
+ *  Runs in O(edgeCount + vertexCount) time.
  *
  *  % java DirectedCycle tinyDG.txt 
  *  Directed cycle: 3 5 4 3 
@@ -31,9 +31,9 @@ import edu.princeton.cs.algs4.StdOut;
  *  returns one.
  *  <p>
  *  This implementation uses depth-first search.
- *  The constructor takes time proportional to <em>V</em> + <em>E</em>
+ *  The constructor takes time proportional to <em>vertexCount</em> + <em>edgeCount</em>
  *  (in the worst case),
- *  where <em>V</em> is the number of vertices and <em>E</em> is the number of edges.
+ *  where <em>vertexCount</em> is the number of vertices and <em>edgeCount</em> is the number of edges.
  *  Afterwards, the <em>hasCycle</em> operation takes constant time;
  *  the <em>cycle</em> operation takes time proportional
  *  to the length of the cycle.
